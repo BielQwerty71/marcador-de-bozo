@@ -25,9 +25,12 @@ jobs:
         run: gradle :app:assembleDebug --no-daemon
       - name: Publicar APK no repositório
         run: |
-          cp app/build/outputs/apk/debug/app-debug.apk MARCADOR-DE-BOZO-v1.0.apk
+          cp app/build/outputs/apk/debug/app-debug.apk /tmp/MARCADOR-DE-BOZO-v1.0.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/MARCADOR-DE-BOZO-v1.0.apk MARCADOR-DE-BOZO-v1.0.apk
           git add MARCADOR-DE-BOZO-v1.0.apk
           git commit -m "Publica APK Marcador de Bozó v1.0" || exit 0
-          git push
+          git push origin HEAD:main
